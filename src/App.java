@@ -9,6 +9,7 @@ public class App
 		// TODO Auto-generated method stub
 		Scanner sc=new Scanner(System.in);
 		boolean f=true;
+		
 		while(f)
 		{
 			System.out.println("*** Welcome to Online Banking System ***");
