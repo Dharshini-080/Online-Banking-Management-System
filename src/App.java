@@ -1,7 +1,7 @@
 
 import java.sql.SQLException;
 import java.util.*;
-public class App 
+public class App
 {
 
 	public static void main(String[] args) 
@@ -9,7 +9,6 @@ public class App
 		// TODO Auto-generated method stub
 		Scanner sc=new Scanner(System.in);
 		boolean f=true;
-		
 		while(f)
 		{
 			System.out.println("*** Welcome to Online Banking System ***");
@@ -38,13 +37,13 @@ public class App
 						break;
 					}
 					System.out.println("login successfull");
-					System.out.println("Welcome to: "+a.getUsername()+ " as Admin of Online Banking System ");
+					System.out.println("Welcome  "+a.getUsername()+ " as Admin of Online Banking System ");
 					System.out.println("-------------------------------------------------------------------");
 					boolean y=true;
 					while(y)
 					{
 						System.out.println("1. Add new customer");
-						System.out.println("2. Update customer address");
+						System.out.println("2. Update customer information");
 						System.out.println("3. Remove/Delete the Account using Account Number");
 						System.out.println("4. View particular Account Details using Account Number");
 						System.out.println("5. View all customer account details");
@@ -86,19 +85,72 @@ public class App
 						}
 						if(x==2)
 						{
-							System.out.println("---Update customer address---");
-							System.out.println("Enter customer Account Number...");
-							int u=sc.nextInt();
-							System.out.println("Enter new address");
-							String u2=sc.next();
 							
-							try {
-								String mes=ad.updateCustomer(u, u2);
-							}
-							catch(CustomerException e)
+							System.out.println("Enter customer Account Number...");
+							int accountNumber=sc.nextInt();
+							boolean updating=true;
+							while(updating)
 							{
-								e.printStackTrace();
+								System.out.println("What would you like to update?");
+								System.out.println("1. Address");
+								System.out.println("2. Email");
+								System.out.println("3. Password");
+								System.out.println("4. Mobile Number");
+								System.out.println("5. Done updating");
+								int updatechoice=sc.nextInt();
+								switch (updatechoice)
+								{
+					            case 1:
+					                System.out.println("Enter new address:");
+					                String newAddress = sc.next();
+					                try {
+					                    String message = ad.updateCustomer(accountNumber, newAddress, null, null, null);
+					                    System.out.println(message);
+					                } catch (CustomerException e) {
+					                    e.printStackTrace();
+					                }
+					                break;
+					            case 2:
+					                System.out.println("Enter new email:");
+					                String newEmail = sc.next();
+					                try {
+					                    String message = ad.updateCustomer(accountNumber, null, newEmail, null, null);
+					                    System.out.println(message);
+					                } catch (CustomerException e) {
+					                    e.printStackTrace();
+					                }
+					                break;
+					            case 3:
+					                System.out.println("Enter new password:");
+					                String newPassword = sc.next();
+					                try {
+					                    String message = ad.updateCustomer(accountNumber, null, null, newPassword, null);
+					                    System.out.println(message);
+					                } catch (CustomerException e) {
+					                    e.printStackTrace();
+					                }
+					                break;
+					            case 4:
+					                System.out.println("Enter new mobile:");
+					                String newMobile = sc.next();
+					                try 
+					                {
+					                    String message = ad.updateCustomer(accountNumber, null, null, null, newMobile);
+					                    System.out.println(message);
+					                } catch (CustomerException e) 
+					                {
+					                    e.printStackTrace();
+					                }
+					                break;
+					            case 5:
+					                updating = false;
+					                break;
+					            default:
+					                System.out.println("Invalid choice.");
+					        }
 							}
+							
+							
 						}
 						if(x==3)
 						{
@@ -199,7 +251,8 @@ public class App
 							System.out.println("2. Deposit Money");
 							System.out.println("3. Withdraw money");
 							System.out.println("4. Transfer money");
-							System.out.println("5. LOGOUT");
+							System.out.println("5. Transactions");
+							System.out.println("6. LOGOUT");
 							int x=sc.nextInt();
 							if(x==1)
 							{
@@ -254,7 +307,30 @@ public class App
 									System.out.println(e.getMessage());
 								}
 							}
-							if(x==5)
+							if (x == 5) {
+							    System.out.println("--Transaction History--");
+							    
+							    try {
+							        List<Transaction> transactions = cd.getTransactionHistory(acc);
+							        System.out.println("Transaction History for Account Number: " + acc);
+							        if(transactions.isEmpty())
+							        {
+							        	System.out.println("No transactions found for this account");
+							        }
+							        for (Transaction transaction : transactions) {
+							            System.out.println("Transaction ID: " + transaction.getTransactionId());
+							            System.out.println("Transaction Type: " + transaction.getTransactionType());
+							            System.out.println("Amount: " + transaction.getAmount());
+							            System.out.println("Transaction Date: " + transaction.getTransactionDate());
+							            System.out.println("-------------------");
+							        }
+							    } catch (CustomerException e) {
+							        System.out.println(e.getMessage());
+							    }
+							}
+
+							
+							if(x==6)
 							{
 								System.out.println("Customer Logout successfully!!!!");
 								System.out.println("Thank you for using our banking services...!!!!!");
@@ -273,4 +349,3 @@ public class App
 	}
 
 }
-

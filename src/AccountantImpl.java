@@ -1,8 +1,12 @@
 
 import java.sql.Connection;
+import java.util.List;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.util.List;
+import java.util.ArrayList;
 public class AccountantImpl implements AccountantIntr
 {
 	Connection con;
@@ -97,31 +101,34 @@ public class AccountantImpl implements AccountantIntr
 		return message;
 	}
 	@Override
-	public String updateCustomer(int customerAccountNumber, String customerAddress) throws CustomerException 
+	public String updateCustomer(int customerAccountNumber, String customerAddress, String customerMail,
+            String customerPassword, String customerMobile) throws CustomerException 
 	{
 		// TODO Auto-generated method stub
 		String message=null;
 		try(Connection con = DBConnect.createDBConnect();
-				PreparedStatement ps=con.prepareStatement("update customerinformation i inner join account a on i.cid = a.cid and a.customerAccountNumber = ? set i.customerAddress = ?"))
+				PreparedStatement ps=con.prepareStatement("UPDATE customerinformation i INNER JOIN account a ON i.cid = a.cid AND a.customerAccountNumber = ? SET i.customerAddress = IFNULL(?, i.customerAddress), i.customerMail = IFNULL(?, i.customerMail), i.customerPassword = IFNULL(?, i.customerPassword), i.customerMobile = IFNULL(?, i.customerMobile)"))
 		{
 			ps.setInt(1, customerAccountNumber);
 			ps.setString(2, customerAddress);
-			
+			ps.setString(3,customerMail);
+			ps.setString(4, customerPassword);
+			ps.setString(5, customerMobile);
 			int x=ps.executeUpdate();
 			if(x>0)
 			{
-				System.out.println("Address updated successfully...");
+				message="Customer information updated successfully";
 			}
 			else
 			{
-				System.out.println("Customer updation is not successful..");
+				message="Customer information updated failed.";
 			}
 		} 
 		catch (SQLException e) 
 		{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			message=e.getMessage();
+			message="Error occured while updating customer information";
 		}
 		return message;
 	}
@@ -222,7 +229,4 @@ public class AccountantImpl implements AccountantIntr
 		return cu;
 	}
 	
-
-	
 }
-
