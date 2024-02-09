@@ -8,6 +8,7 @@ public class Accountant
 	{
 		super();
 	}
+	
 	public Accountant(String username, String email, String password) 
 	{
 		super();

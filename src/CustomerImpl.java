@@ -7,8 +7,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 
-
-
 public class CustomerImpl implements CustomerIntr{
 
 	@Override

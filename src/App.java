@@ -17,6 +17,7 @@ public class App
 			System.out.println("2. CUSTOMER LOGIN PORTAL");
 			System.out.println("Enter your choice");
 			int ch=sc.nextInt();
+			
 			switch(ch)
 			{
 				case 1:

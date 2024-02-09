@@ -1,6 +1,7 @@
 
 public class Customer 
 {
+	
 	private int customerAccountNumber;
 	private String customerName;
 	private int customerBalance;

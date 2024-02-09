@@ -4,6 +4,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 public class DBConnect
 {
+	
 	static Connection con;
 	public static Connection createDBConnect() throws SQLException
 	{
